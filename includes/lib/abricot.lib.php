@@ -145,8 +145,13 @@ function pre($t, $all=false){
  */ 
 function utf8_urldecode($str,$quotes = null,$charset = null){
     $str = str_replace("\\","",$str);
-    $str = preg_replace_callback('/%u([0-9a-f]{4})/i',create_function('$arr','return "&#".hexdec($arr[1]).";";'),$str);
-    return html_entity_decode($str,$quotes,$charset);
+	$str = preg_replace_callback(
+        '/%u([0-9a-f]{4})/i',
+        function ($arr) {
+            return "&#" . hexdec($arr[1]) . ";";
+        },
+        $str
+    ); return html_entity_decode($str,$quotes,$charset);
 }
 
 
